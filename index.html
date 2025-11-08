@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Aucun service sur le sous-domaine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-slate-100 flex items-center justify-center p-6">
+    <main class="w-full max-w-2xl bg-slate-900/60 border border-slate-700 rounded-xl shadow-lg p-6">
+        <div class="md:flex md:gap-6">
+            <section class="flex-1">
+                <h1 class="text-xl font-semibold mb-2">Aucun service sur le sous-domaine</h1>
+                <p class="text-slate-300 mb-4">Aucun service disponible sur le sous-domaine :</p>
+                <div id="currentSub" class="inline-block bg-slate-800 border border-slate-700 rounded-md px-3 py-2 font-mono text-sm">—</div>
+
+                <p class="text-sm text-slate-400 mt-4">Exemple : <span class="font-mono">app.example.com</span></p>
+                <p class="text-xs text-slate-500 mt-3">Contactez l'administrateur du domaine si nécessaire.</p>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        (function(){
+            const subEl = document.getElementById('currentSub');
+            const host = location.hostname || 'localhost';
+
+            // Détecte la partie "sous-domaine" (tout avant le domaine de base)
+            function subdomainFrom(h){
+                if(/^\d+\.\d+\.\d+\.\d+$/.test(h) || h === 'localhost') return h;
+                const parts = h.split('.').filter(Boolean);
+                if(parts.length <= 2) return '(aucun)';
+                return parts.slice(0, -2).join('.');
+            }
+
+            subEl.textContent = subdomainFrom(host);
+        })();
+    </script>
+</body>
+</html>
